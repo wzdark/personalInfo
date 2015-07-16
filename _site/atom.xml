@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title></title>
+        <description>JAVA,Javascript,HTML,CSS</description>      
+        <link>http://hackerxu.com</link>
+        <atom:link href="http://hackerxu.com/feed.xml" rel="self" type="application/rss+xml" />
+        
+            <item>
+                <title>个人主页</title>
+                        
+                
+                    <description>&lt;h1&gt;个人主页&lt;/h1&gt;
+</description>
+                
+                <pubDate>Sun, 08 Jan 2012 00:00:00 +0800</pubDate>
+                <link>http://hackerxu.com/2012/01/08/ab.html</link>
+                <guid isPermaLink="true">http://hackerxu.com/2012/01/08/ab.html</guid>
+            </item>
+        
+            <item>
+                <title>my first post</title>
+                        
+                
+                    <description>&lt;h1&gt;my first post&lt;/h1&gt;
+&lt;p&gt;This is my first post . Click the link below to go back to index:&lt;/p&gt;
+&lt;a href=&quot;/index.html&quot;&gt;go back&lt;/a&gt;
+
+</description>
+                
+                <pubDate>Sat, 07 Jan 2012 00:00:00 +0800</pubDate>
+                <link>http://hackerxu.com/2012/01/07/first-post.html</link>
+                <guid isPermaLink="true">http://hackerxu.com/2012/01/07/first-post.html</guid>
+            </item>
+        
+    </channel>
+</rss>
