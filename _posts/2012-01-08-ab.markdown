@@ -1,0 +1,24 @@
+---
+layout: post
+title: 个人主页
+description : 描述
+categories: [自己]
+tags: [文章]
+---
+
+#个人主页
+
+hello 作业班
+我是王琢，这是我第一次用markdown 写html
+我目前在尝试搭建一个个人主页，需要有写blog，分享代码的功能
+希望在这里能找到！
+
+```
+aaa
+```
+    
+
+
+
+
+
