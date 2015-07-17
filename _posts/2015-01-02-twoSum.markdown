@@ -6,6 +6,7 @@ category: [LeetCode]
 tags: [算法]
 ---
 
+-----------------------
 给定一个整数数组，和一个目标和，找到数组中的两个数，使其相加等于目标和   
 注意：返回值是两个数在数组中的下标(基于1)，且index1小于index2。  
 例如：  
@@ -42,6 +43,33 @@ tags: [算法]
 			return res;
 		}
 	}
+	
+代码(javascript):  
+
+	/**
+	 * @param {number[]} nums
+	 * @param {number} target
+	 * @return {number[]}
+	 */
+	var twoSum = function(nums, target) {
+		//存储key:number,value:index
+		var map = {};
+		var res = [-1,-1];
+		for (var i = 0; i <  nums.length; i++) {
+			var item = nums[i];
+			if ( (target - item) in map){
+				res[0] = map[target - item] + 1;
+				res[1] = i + 1;
+				//找到即返回
+				return res;
+			}
+			//数组元素存储在map中
+			else{
+				map[item] = i;
+			}
+		}
+		return res;
+	};
 
 
 
