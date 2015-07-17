@@ -1,0 +1,47 @@
+---
+layout: post
+title: Two Sum
+description : 给定一个数组和一个指定和，求相加等于指定和的组合
+category: [LeetCode]
+tags: [算法]
+---
+
+给定一个整数数组，和一个目标和，找到数组中的两个数，使其相加等于目标和   
+注意：返回值是两个数在数组中的下标(基于1)，且index1小于index2。  
+例如：  
+输入:  numbers={2, 7, 11, 15}, target=9  
+输出:  index1=1, index2=2  
+[原题地址](https://leetcode.com/problems/two-sum/)   
+
+
+代码(java)：
+
+	public class Solution {
+		public int[] twoSum(int[] nums, int target) {
+			int[] res =new int[]{-1,-1};
+			HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+			for (int i=0;i<nums.length;i++){
+				map.put(target-nums[i],i);
+			}
+			for (int i=0;i<nums.length;i++){
+				if (map.containsKey(nums[i]) ){
+					int index = map.get(nums[i]);
+					if (index > i){
+						res[0] = i+1;
+						res[1] = index+1;
+						return res;
+					}
+					else if (index < i){
+						res[0] = index+1;
+						res[1] = i+1;
+						return res;
+					}
+				}
+				
+			}
+			return res;
+		}
+	}
+
+
+
