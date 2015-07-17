@@ -1,8 +1,17 @@
 <header class="site-header">
     <div class="wrap">
-        <a class="site-title" href="{{ site.baseurl }}/"><h1><strong> <font style="color:#39B3D7" >L</font><font style="color:#ED9C28">i</font><font style="color:#47A447">m</font><font style="color:#D9534F">b</font><font style="color:#3276B1">o</font>
-                </strong>
-        </h1></a>
+        <a class="site-title" href="{{ site.baseurl }}/">
+			<h1>
+				<strong> 
+					<font style="color:#39B3D7" >w</font>
+					<font style="color:#ED9C28">z</font>
+					<font style="color:#47A447">d</font>
+					<font style="color:#D9534F">a</font>
+					<font style="color:#3276B1">r</font>
+					<font style="color:#3276B1">k</font>
+				</strong>
+			</h1>
+		</a>
         <nav class="site-nav">
             <a href="#" class="menu-icon">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -18,7 +27,7 @@
             <div class="trigger">
                 {% for nav in site.navigations %}
                 {% if nav.title %}
-                <a class="page-link" href="{{ nav.href }}">{{ nav.title }}</a>
+                <a class="page-link" href="{{ site.baseurl}}{{ nav.href }}">{{ nav.title }}</a>
                 {% endif %}
                 {% endfor %}
             </div>
