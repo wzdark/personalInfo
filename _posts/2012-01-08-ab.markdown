@@ -2,7 +2,7 @@
 layout: post
 title: 个人主页
 description : 描述
-categories: [自己]
+category: [自己]
 tags: [文章]
 ---
 
