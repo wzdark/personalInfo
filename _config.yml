@@ -4,8 +4,8 @@ email: wzfindjob@163.com
 description: "JAVA,Javascript,HTML,CSS"
 permalink: /:year/:month/:day/:title.html
 baseurl: "/personalInfo"
-url: "http://hackerxu.com"
-atom-baseurl: "http://hackerxu.com"
+url: "http://wzdark.github.io/personalInfo"
+atom-baseurl: "http://wzdark.github.io/personalInfo"
 author: "wzdark"
 
 # Build settings
@@ -20,7 +20,7 @@ redcarpet:
   comments :
     provider : duoshuo
     duoshuo :
-      short_name : taizilongxu
+      short_name : wzdar
 
 navigations:
   - title: About
