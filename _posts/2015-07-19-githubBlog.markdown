@@ -7,9 +7,18 @@ tags: [github, jekyll]
 ---
 
 
- 
 -----------------------
+
+
+<div class="toc">
+			
+</div>
+
+
 除了支持常规的Html页面以外，GitHub也支持基于Jekyll的静态博客生成器。
+
+
+
 
 #如何使用Jekyll
 github会把你上传的文件通过Jekyll编译，并形成静态页面，但是限制于几个条件：

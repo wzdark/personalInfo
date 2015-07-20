@@ -26,3 +26,18 @@ layout: default
     </article>
     {% include custom/duoshuo.html %}
 </div>
+
+
+
+<!-- 根据标题自动生成目录 -->
+<script src="{{ "/js/jquery-catalog/jquery-catalog.js" | prepend:site.baseurl }}"></script>
+<link rel="stylesheet" href="{{"/js/jquery-catalog/jquery-catalog.css"| prepend:site.baseurl}}">
+<script>
+	$(function(){
+		var options = {
+			root : $(".post-content")[0]
+		};
+		
+		$(".toc").generateCatalog(options);
+	});
+</script>
