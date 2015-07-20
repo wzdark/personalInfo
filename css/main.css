@@ -306,6 +306,9 @@ strong {
    
 }
 
+.post-content a         { color: #1abc9c; text-decoration: underline; }
+.post-content a:hover   { color: #000; }
+
 /*GFM */
 /* ----------------------------------------------------------*/
 

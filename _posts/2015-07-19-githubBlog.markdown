@@ -1,4 +1,4 @@
-﻿---
+---
 layout: post
 title: 搭建Github静态博客
 description : 本文说明了如何在gitgub上搭建自己的个人博客
@@ -6,10 +6,12 @@ category: [环境搭建]
 tags: [github, jekyll]
 ---
 
+ [TOC]
+ 
 -----------------------
 除了支持常规的Html页面以外，GitHub也支持基于Jekyll的静态博客生成器。
 
-###如何使用Jekyll
+#如何使用Jekyll
 github会把你上传的文件通过Jekyll编译，并形成静态页面，但是限制于几个条件：
  
 1. 使用名称如`username.github.io`的仓库，并且置于`master`分支下。 
@@ -17,8 +19,9 @@ github会把你上传的文件通过Jekyll编译，并形成静态页面，但�
   
 github服务器会识别以上的条件，满足之后使用Jekyll去生产静态博客，如果生产出错，他会给你留的email发一封邮件。  
   
-###安装Jekyll到本地
-1. 安装[Ruby](https://www.ruby-lang.org/)和[RubyDevKit](http://rubyinstaller.org/downloads/)(如果是windows操作系统)
+#安装Jekyll到本地
+###1. 安装[Ruby](https://www.ruby-lang.org/)和[RubyDevKit](http://rubyinstaller.org/downloads/)(如果是windows操作系统)
+  
 jekyll本身基于Ruby开发，因此，想要在本地构建一个测试环境需要具有Ruby的开发和运行环境。在windows下，可以使用[Rubyinstaller](http://rubyinstaller.org/downloads/)安装。[ruby安装说明](http://www.ruby-lang.org/zh_cn/downloads/)
 
 
@@ -56,12 +59,12 @@ DevKit 是windows平台下编译和使用本地C/C++扩展包的工具。它就�
 最后，执行如下命令，执行安装：
 	ruby dk.rb install
 
-2. 安装bundler
+###2. 安装bundler
 
-3. 安装jekyll
+###3. 安装jekyll
 
 
-4. 安装pygments
+###4. 安装pygments
 
 
 #启动Jekyll
