@@ -28,6 +28,7 @@ tags: [github, jekyll]
 + [一步步在GitHub上创建博客主页](http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html)
 + [Using Jekyll with Pages](https://help.github.com/articles/using-jekyll-with-pages/)
 + [搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门](http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html)
++ [Windows 上安装 Jekyll](http://blog.csdn.net/kong5090041/article/details/38408211)
 
 # 需要的环境和技能
 
@@ -160,11 +161,101 @@ bundle 会根据 Gemfile 生成 Gemfile.lock，里面锁定了 gem 的版本依�
 
 
 
-###4. 安装pygments
+###4. 安装Pygments
+Jekyll 里默认的语法高亮插件是 Pygments。基于Python编写。 所以它需要安装 Python 并在网站的配置文件_config.yml 里将 highlighter 的值设置为pygments。
+
+#### 安装 Python
+1. 前往 [python官网下载](http://www.python.org/download/) 
+2. 下载合适的 Python windows 安装包，如 Python 2.7.6 Windows Installer。 请注意，Python 2 可能会更合适，因为暂时 Python 3 可能不会正常工作。
+3. 安装
+4. 添加安装路径 (如： C:\Python27) 至 PATH。
+5. 检验 Python 安装是否成功
+ 
+		python –V
+输出示例：
+ 
+		Python 2.7.6
+
+#### 安装 Easy Install
+1. 浏览 [这里](https://pypi.python.org/pypi/setuptools#installation-instructions) 来查看详细的安装指南。
+2. 对于 Windows 7 的机器，下载 [ez_setup.py](https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py) 并保存，例如，至C:\。   
+然后从命令行使用 Python 运行此文件：
+ 
+		python “C:\ez_setup.py”
+
+3. 添加 ‘Python Scripts’ 路径 ,如： `C:\Python27\Scripts` 至 PATH
 
 
+#### 安装 Pygments
+1. 确保 easy_install 已经正确安装
+  
+		easy_install --version
+输出示例：
+ 
+		setuptools 3.1
+
+2. 使用 “easy_install” 来安装 Pygments
+
+		easy_install Pygments
+
+		
+		
 ##启动Jekyll
+首先，将网站仓库git clone到本地，并且如下操作：
+	
+1. 如使用名称如`username.github.io`的仓库，将其置于`master`分支下。 
+2. 或者使用其他名称的仓库，将其置于`gh-pages`分支下.
 
+搭建Jekyll目录结构，可以看这篇[文章](http://www.pchou.info/web-build/2013/01/07/build-github-blog-page-05.html#blogTitle1)。确保网站仓库的目录结构如下：
+
+	|—— _config.yml
+	|—— _includes
+	|—— _layouts
+	|   |—— default.html
+	|   |—— post.html
+	|—— _posts
+	|   |—— 20011-10-25-open-source-is-good.html
+	|   |—— 20011-04-26-hello-world.html
+	|—— _site
+	|—— index.html
+	|—— assets
+	   |—— css
+		   |—— style.css
+	   |—— javascripts
+	 
+
+  
++ _config.yml：保存配置，该配置将影响jekyll构造网站的各种行为。关于配置的详细文档在这里
++ \_includes：该目录下的文件可以用来作为公共的内容被其他文章引用，就跟C语言include头文件的机制完全一样，jekyll在解析时会对 {% raw %}{% include %} {% endraw %}标记扩展成对应的在\_includes文件夹中的文件
++ _layouts：该目录下的文件作为主要的模板文件
++ _posts：文章或网页应当放在这个目录中，但需要注意的是，文章的文件名必须是YYYY-MM-DD-title
++ _site：上面提到过，这是jekyll默认的转化结果存放的目录
++ assets：这个目录没有强制的要求，主要目的是存放你的资源文件，图片、样式表、脚本等。
+ 
+使用如下命令启动Jekyll
+
+	bundle exec jekyll serve
+	
+在windows下，也可以把启动Jekyll命令写成bat文件，双击执行：
+	
+	cmd /k "cd %cd% && bundle exec jekyll serve"
+	pause
+
+输出实例：
+
+	Configuration file: D:/workspace/personalInfo/_config.yml
+				Source: D:/workspace/personalInfo
+		   Destination: D:/workspace/personalInfo/_site
+		  Generating...
+						done.
+	  Please add the following to your Gemfile to avoid polling for changes:
+		gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+	 Auto-regeneration: enabled for 'D:/workspace/personalInfo'
+	Configuration file: D:/workspace/personalInfo/_config.yml
+		Server address: http://0.0.0.0:4000/personalInfo/
+	  Server running... press ctrl-c to stop.
+	
+表示网站在本地启动成功，访问地址是 `http://localhost:4000/personalInfo/`
 
 
  
