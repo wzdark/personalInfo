@@ -45,10 +45,11 @@
 }
 
 /*init a style for different browse*/
-.item_block a,.item_block a,.item_block a{
+.item_block a , .item_block a:hover{
 	color: #FFFFFF;
 	text-decoration: none;
 }
+
 
 .item_block *::before,.item_block *::after{
 	box-sizing: border-box;
@@ -100,11 +101,11 @@
 	
 	opacity: 1;
 	/*位移*/
-	transform: translateX(-20px);
-	-ms-transform:translateX(-20px); 	/* IE 9 */
-	-moz-transform:translateX(-20px); 	/* Firefox */
-	-webkit-transform:translateX(-20px); /* Safari 和 Chrome */
-	-o-transform:translateX(-20px); 	/* Opera */
+	transform: translateX(-30px);
+	-ms-transform:translateX(-30px); 	/* IE 9 */
+	-moz-transform:translateX(-30px); 	/* Firefox */
+	-webkit-transform:translateX(-30px); /* Safari 和 Chrome */
+	-o-transform:translateX(-30px); 	/* Opera */
 	
 	
 }
@@ -551,7 +552,7 @@
 
 /*style 10*/
 .style_10 a{
-	color: #274357;
+	color: #274357 !important;
 }
 
 .style_10 a::before{
@@ -587,7 +588,7 @@
 
 /*style 10*/
 .style_11 a{
-	color: #274357;
+	color: #274357 !important;
 }
 
 .style_11 a::before{
