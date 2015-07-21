@@ -14,13 +14,60 @@ tags: [github, jekyll]
 			
 </div>
 
+# 前言
+> [阮一峰 - 喜欢写Blog的人，会经历三个阶段](http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html)
 
-除了支持常规的Html页面以外，GitHub也支持基于Jekyll的静态博客生成器。
+> + 第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。
+> + 第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。
+> + 第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。
+  
+而github正提供了博客管理这一功能，从2012年以来不少人在ｇithub网站上搭建blog。他们既拥有绝对管理权，又享受github带来的便利----不管何时何地，只要向主机提交commit，就能发布新文章。更妙的是，这一切还是免费的，github提供无限流量。
+ 
+本篇文章,介绍了到目前为止(2015/7/21)，在最新的github上搭建博客的方法。参考了如下资料：
+
++ [一步步在GitHub上创建博客主页](http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html)
++ [Using Jekyll with Pages](https://help.github.com/articles/using-jekyll-with-pages/)
++ [搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门](http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html)
+
+# 需要的环境和技能
+
+> [在一步步在GitHub上创建博客主页](http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html#blogTitle1)中说到用github写博客，维护流程如下：
+ 
+> 1. 利用本地编辑器编写博客后维护网站其他页面
+> 2. 使用Jekyll在本地测试网站功能
+> 3. 使用Git客户端工具上传模板和页面文件
+> 4. Git Server会用jekyll转化你的模板，并生成静态页面
+
+所以，我们需要在本地搭建一个jekyll环境，能够在本地看见我们编写博客或者个人网页，确定编写无误后，再提交到git上。 
+ 
+需要的技能有：
+
+1. 对Git源代码管理原理的认识，可以参考这里：[Git学习资源](http://www.pchou.info/resource/2013/01/03/git-resource.html)
+2. 逐步掌握jekyll
+3. 基本的HTML、CSS、JS技术能力
+
+# 搭建Jekyll环境
+
+## 什么是Jekyll
+在开始之前，有必要详细总结一下这个jekyll是什么。上面提到了它实际上是一个模板转化引擎。它同时也是GitHub上的一个开源项目：[Jekyll](https://github.com/mojombo/jekyll)
+ 
+jekyll本身基于Ruby，它实际上也可以看成是一种模板引擎[liquid](https://github.com/shopify/liquid/wiki/liquid-for-designers)的扩展。jekyll对liquid的主要扩展在于两点：
+ 
++ 内建专用于博客网站的对象，可以在模板中引用这些对象：page、site等
++ 对liquid进行了扩展，方便构建博客网站
+
+类似其他的模板引擎一样，标记是模板引擎解析的关键，liquid设计了如下两种标记：
+
++ {% raw %}`{{ }}`:此标记表征的是将其中的变量转化成文本: `{{page.title}}`表示文章标题，`{{ content }}`表示文章内容。{% endraw %}
++ {% raw %}`{% %}`:此标记用于包含控制流关键字，比如: `{% if %}`、`{% for x in xx %}` 。  {% endraw %}
 
 
+显而易见的是，有了这种标记的支持，再加上jekyll内建的对象，构建网站就方便不少了。
+ 
+可能有朋友会更其他的服务器端脚本语言比较，比如asp、razor、jsp、velocity…，但是一定要记得的是，jekyll对模板的解析仅仅只有一次，它的目标就是将模板一次性的转化成静态网站，而不是上述的动态网站脚本语言。
+ 
 
-
-#如何使用Jekyll
+##如何使用Jekyll
 github会把你上传的文件通过Jekyll编译，并形成静态页面，但是限制于几个条件：
  
 1. 使用名称如`username.github.io`的仓库，并且置于`master`分支下。 
@@ -28,15 +75,16 @@ github会把你上传的文件通过Jekyll编译，并形成静态页面，但�
   
 github服务器会识别以上的条件，满足之后使用Jekyll去生产静态博客，如果生产出错，他会给你留的email发一封邮件。  
   
-#安装Jekyll到本地
-###1. 安装[Ruby](https://www.ruby-lang.org/)和[RubyDevKit](http://rubyinstaller.org/downloads/)(如果是windows操作系统)
+##安装Jekyll到本地
+###1. 安装Ruby和RubyDevKit(如果是windows操作系统)
   
-jekyll本身基于Ruby开发，因此，想要在本地构建一个测试环境需要具有Ruby的开发和运行环境。在windows下，可以使用[Rubyinstaller](http://rubyinstaller.org/downloads/)安装。[ruby安装说明](http://www.ruby-lang.org/zh_cn/downloads/)
-
+jekyll本身基于[Ruby](https://www.ruby-lang.org/)开发，因此，想要在本地构建一个测试环境需要具有Ruby的开发和运行环境。在windows下，可以使用[Rubyinstaller](http://rubyinstaller.org/downloads/)安装。[ruby安装说明](http://www.ruby-lang.org/zh_cn/downloads/)
+ 
+ruby安装完成后，记得将其目录,比如`C:/Ruby22-x64`添加到系统的环境变量中。
 
 DevKit 是windows平台下编译和使用本地C/C++扩展包的工具。它就是用来模拟Linux平台下的make, gcc, sh来进行编译。注：这个方法目前仅支持通过RubyInstaller安装的Ruby，如果不是建议你重新安装。
 
-从这里[下载DevKit](http://rubyinstaller.org/downloads/)，注意版本要与Ruby版本一致。
+从这里[下载DevKit](http://rubyinstaller.org/downloads/)，**注意版本要与Ruby版本一致**。
 
   
 下载下来的是一个很有意思的sfx文件，如果你安装有7-zip，可以直接双击，它会自解压到你所选择的目录。
@@ -66,17 +114,56 @@ DevKit 是windows平台下编译和使用本地C/C++扩展包的工具。它就�
 其中`C:/Ruby22-x64` 是ruby的安装路径。
  
 最后，执行如下命令，执行安装：
+	
 	ruby dk.rb install
+提示如下，表示安装成功了：
+
+	[INFO] Updating convenience notice gem override for 'C:/Ruby22-x64'
+	[INFO] Installing 'C:/Ruby22-x64/lib/ruby/site_ruby/devkit.rb'
+	
+Ps: 替换source源
+
+在国内，Ruby的官方仓库时常访问不到，推荐使用淘宝的镜像参考，使用如下命令替换source源：
+
+	gem source -r https://rubygems.org/
+	gem source -a http://ruby.taobao.org
+	
+查看当前的source可用如下命令：
+
+	gem source
 
 ###2. 安装bundler
+在ruby语言下，每一个ruby程序都能打成一个gem包，以供其他程序调用。而[bundler](http://bundler.io/)是管理应用程序 Gem 相关性(dependencies)管理工具，它会根据 Gemfile 的设定自动下载及安装Gem 套件，并且帮你解决不同套件之间的依存关系。
+
+以java作为类比就是：
+
++ java  =  ruby
++ jar = gem
++ maven = bundler
+
+使用如下指令安装bundler
+
+	gem install bundler
+
 
 ###3. 安装jekyll
+首先，在你要发布网站的git仓库目录下，创建一个文件名称为`Gemfile`,其中的内容为
+
+	source 'http://ruby.taobao.org'
+	gem 'github-pages'
+	
+bundle 会根据 Gemfile 生成 Gemfile.lock，里面锁定了 gem 的版本依赖，在运行的时候会载入指定版本的 gem。  
+然后运行如下指令安装：
+
+	bundle install
+
+
 
 
 ###4. 安装pygments
 
 
-#启动Jekyll
+##启动Jekyll
 
 
 

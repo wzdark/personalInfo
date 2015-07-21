@@ -309,7 +309,7 @@ strong {
    
 }
 
-.post-content a         { color: #1abc9c; text-decoration: underline; }
+.post-content a         { color: #1abc9c; text-decoration: underline; margin: 0 5px; }
 .post-content a:hover   { color: #000; }
 
 /*GFM */
@@ -342,6 +342,7 @@ strong {
     font-size: 30px;
     border-bottom: 1px solid #EEE;
     margin:50px 0 30px;
+	padding-bottom: 8px;
 }
 
 .post-content h3 {
