@@ -1,0 +1,198 @@
+---
+layout: post
+title: js闭包探索
+description : js闭包探索
+category: [前端]
+tags: [javascript]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##前言
+在写javascript代码的时候，我们会经常碰到闭包（closure）. 
+ 
+javascript作为解释型语言，一直是单线程模式。在做ajxa请求或者其他异步操作的时候经常需要用到回调函数，例如这样： 
+		
+	var $scope = xxxx;
+	$http.post('/appCenter/app/get' ,postData)
+		.success(function(data, status, headers, config){
+			
+			//数据
+			$scope.appList = data.records;
+			
+			
+		})
+		.error(function(data, status, headers, config){
+			
+		});
+			
+其中，`success`和`error`函数接受的参数就是成功和错误的回调函数，当post请求完成后，才执行。 
+在回调函数里，使用了定义函数时的上一级作用域的变量`$scope` 这是一个典型的闭包。
+ 
+工欲善其事，必先利其器，今天就来好好研究一下闭包，避免以后由于理论不足而遇到一些坑。
+ 
+参考资料：
+
+1. [MDN闭包](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures)
+2. [学习Javascript闭包（Closure）](http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html)
+3. [JavaScript内部原理系列－闭包（Closures](http://www.faceye.net/search/142545.html)
+
+
+##什么是闭包
+
+> 闭包是函数和创建该函数的上下文中数据的结合。
+
+	var person = {
+		callBack : null,
+		setCallBack : function(func){
+			this.callBack = func;
+		}
+	};
+	
+	(function(){
+		var name = "hi";
+		person.setCallBack(function(){
+			alert(name);
+		})
+	})();
+	
+	person.callBack();
+	
+其中匿名函数 
+
+	function(){
+		alert(name);
+	}
+和其外部作用域的变量`name` 组成了闭包
+
+## 问题（闭包与面向堆栈编程的规则冲突）
+这样的闭包看似很好，我能在回调函数中访问外部变量，可以干很多事情了。但是又带来了新的疑问。
+ 
+初学编程的时候我们都学过：在面向堆栈的编程语言中，函数的本地变量都是保存在 堆栈上的， 每当函数激活的时候，这些变量和函数参数都会压栈到该堆栈上。
+当函数返回的时候，这些参数又会从堆栈中移除。看一个简单的例子：
+
+	function init(){
+		var a = "hi";
+	}
+	alert(a);
+
+放入浏览器里执行会提示你：
+
+	"Uncaught ReferenceError: a is not defined"
+
+这是由于函数`init`的局部变量`a`的生存周期只在函数内部有效，函数调用一结束，其函数的堆栈环境将被释放，所以`a`会变成`undefined`。
+
+如果严格按照这一规定，那闭关是不可能存在的，闭包的意义就在于扩大了函数的作用域。
+
+不同的语言对为了实现做了不同的变通，JAVA和c#是通过**匿名对象**实现的，参考[这里](http://www.cnblogs.com/jujusharp/archive/2011/08/04/2127999.html);
+ 
+而javascript里是通过动态的**作用域链**实现的。
+
+###作用域链
+任何程序设计语言都有作用域的概念，简单的说，作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。在JavaScript中，变量的作用域有嵌套关系，下层的作用域代码能访问上层作用域的变量。
+而最外层的作用域，在浏览器环境里是window对象。
+
+	var a = "global";
+	function fun(){
+		var b = "fun";
+		alert(a); //ok
+	}
+	fun();
+	alert(b); //error
+	
+
+其中,`a`处于全局作用域中，对`fun`可见，而在全局作用域对下层作用域中的变量`b`不可见，所以 代码`alert(b)`会出错。
+ 
+在`fun`函数中对变量a的使用(access)有一个搜索过程，首先在当前作用域(fun)搜索，然后在该作用域的外层作用域搜索（global或者window），然后找到了`a = "global"`
+
+故fun函数的作用域链如下：
+
+	fun -> global
+
+根据函数创建的算法，我们看到 在ECMAScript中，函数在创建的时候就保存了上层上下文的作用域链（除开异常的情况） 。而作用域包含了其中的变量对象，在这种意义下，所以的函数都是闭包。
+
+只是我们通常把 "**函数的定义和函数的执行不在 同一个上下文环境的时候**"，当做是闭包。
+
+
+
+##循环里的闭包
+注意：同一个上下文中创建的闭包是共用一个作用域链属性
+
+在循环中，闭包经常给人带来疑惑，当在循环中创建了函数，然后将循环的索引值和每个函数绑定的时候，通常得到的结果不是预期的（预期是希望每个函数都能够获取各自对应的索引值）。看一个例子：
+
+	var data = [];
+	for (var k = 0; k < 3; k++) {
+		data[k] = function () {
+			alert(k);
+		};
+	}
+	data[0](); // 3, 而不是 0
+	data[1](); // 3, 而不是 1
+	data[2](); // 3, 而不是 2
+	
+如果想要得到期望的效果则需加一层包装，让闭包的函数各自拥有自己的作用域。
+
+	var data = [];
+	for (var k = 0; k < 3; k++) {
+		data[k] = (function(index){
+			return function(){
+				alert(index);
+			}
+		})(k);
+		
+	}
+	data[0](); // 1, 期望的结果
+	data[1](); // 2, 期望的结果
+	data[2](); // 3, 期望的结果
+	
+其中
+
+	(function(index){
+		return function(){
+			alert(index);
+		}
+	})(k);
+
+是匿名函数自调用的一种写法，详细信息看[这里](https://cnodejs.org/topic/5230d5f0101e574521c86ff4)。
+
+##性能考虑
+由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度的使用闭包可能导致内存占用过多，建议除非有必要，尽量不要使用闭包。
+ 
+##内存泄露
+而在IE9之前的版本对JScript和COM对象使用不同的垃圾收集机制，因此闭包在这些版本中会出现特殊的问题。
+具体来说，如果闭包的作用域链保存这一个html元素，那么意味着该元素无法被销毁。
+
+	function assignHandler(){
+		var element = document.getElementById("someElement");
+		element.onclick = function(){
+			alert(element.id);
+		}
+	}
+	
+以上代码创建了一个处理element元素的闭包，由于匿名函数保存了一个对assignHandler的作用域的引用，因此无法减少element的引用数。只要匿名函数存在，
+element的引用数至少是1。根据javascript内存回收规则，element所占内存永远不会回收。不过这个问题可以通过hack代码解决：
+
+	function assignHandler(){
+		var element = document.getElementById("someElement");
+		var id = element.id;
+		element.onclick = function(){
+			alert(id);
+		}
+		element = null;
+	}
+	
+
+
+
+
+	
+
+
+ 
+
