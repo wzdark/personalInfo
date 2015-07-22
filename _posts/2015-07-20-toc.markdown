@@ -1,0 +1,70 @@
+---
+layout: post
+title: jquery插件支持toc
+description : jquery插件支持toc
+category: [前端]
+tags:  [jekyll]
+---
+
+
+-----------------------
+
+
+<div class="toc"></div>
+
+##前言
+目前在用github写博客，发现其所用的模板引擎 **jekyll** 中, 默认的markdown编译器是**redcarpet** 没办法生成toc（Table of Content）。 
+而一个在线的markdown编辑器[cmd markdown](https://www.zybuluo.com/mdeditor?url=https%3A%2F%2Fwww.zybuluo.com%2Fstatic%2Feditor%2Fmd-help.markdown#cmd-markdown-%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95%E6%89%8B%E5%86%8C),
+却能支持漂亮的toc;
+
+所以萌生了一个写toc插件的想法，有两个思路：
+
+1. 为**redcarpet**写一个toc插件，但是只能在本地用，如果github服务器上不支持，还是没办法。
+2. 写了个基于jquery的toc插件，在客户端根据h1到h6自动生成标题和锚点。
+
+本文使用了第二分个方法. 源码在这里[jquery-toc.js](/personalInfo/js/jquery-catalog/jquery-catalog.js),[jquery-catalog.css](/personalInfo/js/jquery-catalog/jquery-catalog.css)
+
+ps: 本博客的目录全部是用该插件生成的。
+
+##Demo
+本文目录
+
+
+##使用方法
+
+1. 在html文件中引入js和css，注意jquery要优先引入
+ 
+		<script src="/path/to/jquery.js"></script>
+		<script src="/path/to/jquery-catalog.js"></script>
+		<link href="/path/to/jquery-catalog.css" rel="stylesheet"></link>
+		
+2. 在html头部要生成toc的插入如下div
+ 
+		<div class="toc"></div>
+	
+3. 在加载窗体事件里启动插件
+ 
+		<script>
+		$(function(){
+			var options = {
+				root : window
+			};
+			
+			$(".toc").generateCatalog(options);
+		});
+		</script>
+
+其中参数`options.root`是指要在哪个文档对象中生成toc结构，如果不填写，则默认是整个window。
+	
+	
+ 
+
+
+
+
+
+	
+
+
+ 
+

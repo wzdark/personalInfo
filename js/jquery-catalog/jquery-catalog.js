@@ -16,8 +16,6 @@
 
 	/*目录节点类*/
 	/*
-	 * @para level 节点深度 0为第一层节点
-	 * @para hLevel 标题深度表示该节点匹配第几级标题
 	 * @para jqObj 该节点的jquery对象
 	 */
 	function Node(jqObj) {
@@ -77,10 +75,12 @@
 		
 	};
 	
+	/*默认的文章是整个window*/
 	$.fn.generateCatalog.defaults = {
-		root : window.document
+		root : window
 	};
 	
+	/*根据node对象生成目录*/
 	function generateHeader(node, container) {
 		var tempRoot = container;
 		for (var i = 1; i <= node.level; i++) {
@@ -90,7 +90,8 @@
 		}
 		$("<a href='#" + node.name + "'>" + node.name + "</a>").appendTo(tempRoot);
 	}
-
+	
+	/*获取dom元素root下的所以标题，并且按照top值先后顺序排序*/
 	function getHeaders(root) {
 		var res = [];
 		for (var i = 0; i < 7; i++) {
