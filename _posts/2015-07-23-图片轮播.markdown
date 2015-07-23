@@ -1,0 +1,23 @@
+---
+layout: post
+title: 图片轮播
+description : 图片轮播
+category: [前端]
+tags: [javascript, css]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##前言
+很多网站的主页上有一块叫banner（旗帜）的区域，用来做图片轮播的展示，如何实现呢？
+	
+
+
+ 
+
