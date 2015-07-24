@@ -1,0 +1,25 @@
+---
+layout: post
+title: js中的异步编程
+description : js中的异步编程
+category: [前端]
+tags: [javascript]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##前言
+坑待填~
+
+
+	
+
+
+ 
+
