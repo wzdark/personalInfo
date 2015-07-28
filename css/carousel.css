@@ -1,0 +1,56 @@
+body{
+	background: #EEE;
+	margin: 0;
+	padding: 0;
+}
+
+.carousel{
+	width: 100%;
+	height: auto;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+
+
+.carousel > .wrapper{
+	width: 200%;
+	position: relative;
+	left: 0;
+	/*transform: translateX(0px);
+	-ms-transform:translateX(0px); 	
+	-moz-transform:translateX(0px); 	
+	-webkit-transform:translateX(-33%); 
+	-o-transform:translateX(0px);*/ 
+	
+}
+
+
+.carousel > .wrapper > .banner-item{
+	display: inline !important;
+	width: 50%;
+	float: left;
+	
+	
+}
+
+.circl{
+    width:10px;
+    height:10px;
+    border-radius:10px;
+    border:2px solid #fff;
+}
+
+
+
+.carousel li{
+	float: left;
+	list-style: none;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+
+
+
+

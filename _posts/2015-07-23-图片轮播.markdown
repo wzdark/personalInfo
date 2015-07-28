@@ -8,7 +8,7 @@ tags: [javascript, css]
 
 
 -----------------------
-
+<link rel="stylesheet" href="{{ "/css/carousel.css" | prepend: site.baseurl }}">
 
 <div class="toc">
 			
@@ -16,8 +16,134 @@ tags: [javascript, css]
 
 ##前言
 很多网站的主页上有一块叫banner（旗帜）的区域，用来做图片轮播的展示，如何实现呢？
-	
 
+
+##方案1
+使用一个长条div，容纳不同的img，并且横向并排排列，如下图所示： 
+
+![banner方案1示意图]({{site.baseurl}}/img/bannerIntro1.jpg)
+
+蓝色区域代表浏览器的视窗位置。那么图片轮播其实就是改变这个div的横坐标。
+
+###代码
+html结构：
+	
+	<div class="carousel">
+		<div class="wrapper">
+			<img id="banner1" class="banner-item" src="{{site.baseurl}}/img/banner1.jpg"/>
+			<img id="banner2" class="banner-item" src="{{site.baseurl}}/img/banner2.jpg"/>
+		</div>
+		<ol style="position: absolute; bottom: 20px;left: 50%;margin-left:0;padding-left: 0;">
+			<li id="bannerLink1" class="circl" onclick="moveTo(0);">	
+			</li>
+			<li id="bannerLink2" class="circl" onclick="moveTo(1);">
+			</li>
+		</ol>
+	</div>
+	
+css:
+
+	/*整个banner容器*/
+	.carousel{
+		width: 100%;
+		height: auto;
+		display: block;
+		position: relative;
+		overflow: hidden;
+	}
+
+	/*图片容器*/
+	.carousel > .wrapper{
+		width: 200%; /*几个图片就是百分之几百*/
+		position: relative;
+		left: 0;
+	}
+
+	/*图片item*/
+	.carousel > .wrapper > .banner-item{
+		display: inline !important;
+		width: 50%; /*100%除以图片个数*/
+		float: left;
+	}
+
+	/*导航link*/
+	.circl{
+		width:10px;
+		height:10px;
+		border-radius:10px;
+		border:2px solid #fff;
+	}
+
+	.carousel li{
+		float: left;
+		list-style: none;
+		cursor: pointer;
+		margin-right: 10px;
+	}
+
+
+javascript:
+
+	<script type="text/javascript">
+		/*滚动到第几个banner*/
+		function moveTo(index){
+			if (index == 0){
+				$(".wrapper").animate({left:"0px"},500);
+				$("#bannerLink1").css("background","#fff");
+				$("#bannerLink2").css("background","transparent");
+			}
+			if (index == 1){
+				$(".wrapper").animate({left:"-100%"},500);
+				$("#bannerLink1").css("background","transparent");
+				$("#bannerLink2").css("background","#fff");
+			}
+		}
+		
+		/*初始化显示第一个banner*/
+		$(function(){
+			moveTo(0);
+		});
+		
+	</script>
+
+###DEMO
+<script type="text/javascript">
+	function moveTo(index){
+		if (index == 0){
+			$(".wrapper").animate({left:"0px"},500);
+			$("#bannerLink1").css("background","#fff");
+			$("#bannerLink2").css("background","transparent");
+		}
+		if (index == 1){
+			$(".wrapper").animate({left:"-100%"},500);
+			$("#bannerLink1").css("background","transparent");
+			$("#bannerLink2").css("background","#fff");
+		}
+	}	
+	$(function(){
+		moveTo(0);
+	});
+</script>
+<div class="carousel">
+	<div class="wrapper">
+		<img id="banner1" class="banner-item" src="{{site.baseurl}}/img/banner1.jpg"/>
+		<img id="banner2" class="banner-item" src="{{site.baseurl}}/img/banner2.jpg"/>
+	</div>
+	<ol style="position: absolute; bottom: 20px;left: 50%;margin-left:0;padding-left: 0;">
+		<li id="bannerLink1" class="circl" onclick="moveTo(0);">
+					
+		</li>
+		<li id="bannerLink2" class="circl" onclick="moveTo(1);">
+			
+		</li>
+	</ol>
+</div>
+ 
+说明： 如果把此div：
+	
+	<div class="carousel">...</div>
+
+放入在body或者是自适应宽度的容器下，其banner的尺寸也是自适应的，能适应浏览器尺寸改变，而长宽比不变。
 
  
 
