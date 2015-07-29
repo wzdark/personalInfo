@@ -23,7 +23,7 @@ tags: [javascript, css]
 
 ![banner方案1示意图]({{site.baseurl}}/img/bannerIntro1.jpg)
 
-蓝色区域代表浏览器的视窗位置。那么图片轮播其实就是改变这个div的横坐标。
+蓝色区域代表浏览器的视窗位置。那么图片轮播其实就是改变这个div的横坐标,使img[1] ... img[n]轮流在视窗中显示。
 
 ###代码
 html结构：
@@ -99,9 +99,20 @@ javascript:
 			}
 		}
 		
-		/*初始化显示第一个banner*/
 		$(function(){
-			moveTo(0);
+			var curIndex = -1;
+			var indexLen = 2;
+			/*初始化显示第一个banner*/
+			/*3秒为周期的图片轮播*/
+			setTimeout(function(){
+				curIndex+=1;
+				if (curIndex >= indexLen){
+					curIndex = 0;
+				}
+				moveTo(curIndex);
+				setTimeout(arguments.callee,3000);
+
+			});
 		});
 		
 	</script>
@@ -121,7 +132,19 @@ javascript:
 		}
 	}	
 	$(function(){
-		moveTo(0);
+		var curIndex = -1;
+		var indexLen = 2;
+		/*初始化显示第一个banner*/
+		/*3秒为周期的图片轮播*/
+		setTimeout(function(){
+			curIndex+=1;
+			if (curIndex >= indexLen){
+				curIndex = 0;
+			}
+			moveTo(curIndex);
+			setTimeout(arguments.callee,3000);
+
+		});
 	});
 </script>
 <div class="carousel">
@@ -143,7 +166,8 @@ javascript:
 	
 	<div class="carousel">...</div>
 
-放入在body或者是自适应宽度的容器下，其banner的尺寸也是自适应的，能适应浏览器尺寸改变，而长宽比不变。
+放入在body或者是自适应宽度的容器下，其banner的尺寸也是自适应的，能适应浏览器尺寸改变，而长宽比不变。   
+比如 <a href="{{ site.baseurl}}/bannerTest.html">这里</a>
 
  
 

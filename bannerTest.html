@@ -1,0 +1,59 @@
+---
+layout: simple
+title: banner演示
+---
+
+
+<link rel="stylesheet" href="{{ "/css/carousel.css" | prepend: site.baseurl }}">
+
+<div class="carousel">
+	<div class="wrapper">
+		<img id="banner1" class="banner-item" src="{{site.baseurl}}/img/banner1.jpg"/>
+		<img id="banner2" class="banner-item" src="{{site.baseurl}}/img/banner2.jpg"/>
+	</div>
+	<ol style="position: absolute; bottom: 20px;left: 50% ;margin-left: 0;padding-left: 0;">
+		<li id="bannerLink1" class="circl" onclick="moveTo(0);">
+			
+		</li>
+		<li id="bannerLink2" class="circl" onclick="moveTo(1);">
+			
+		</li>
+	</ol>
+</div>
+			
+
+<script type="text/javascript">
+	/*滚动到第几个banner*/
+	function moveTo(index){
+		if (index == 0){
+			$(".wrapper").animate({left:"0px"},500);
+			$("#bannerLink1").css("background","#fff");
+			$("#bannerLink2").css("background","transparent");
+		}
+		if (index == 1){
+			$(".wrapper").animate({left:"-100%"},500);
+			$("#bannerLink1").css("background","transparent");
+			$("#bannerLink2").css("background","#fff");
+		}
+	}
+	
+	
+	$(function(){
+		
+		var curIndex = -1;
+		var indexLen = 2;
+		/*初始化显示第一个banner*/
+		/*两秒为周期的图片轮播*/
+		setTimeout(function(){
+			curIndex+=1;
+			if (curIndex >= indexLen){
+				curIndex = 0;
+			}
+			moveTo(curIndex);
+			setTimeout(arguments.callee,3000);
+		
+		});
+	});
+	
+</script>
+
