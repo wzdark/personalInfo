@@ -169,5 +169,13 @@ javascript:
 放入在body或者是自适应宽度的容器下，其banner的尺寸也是自适应的，能适应浏览器尺寸改变，而长宽比不变。   
 比如 <a href="{{ site.baseurl}}/bannerTest.html">这里</a>
 
+
+##方案2
+图片banner有五种状态，如下图所示：
+
+![banner方案2示意图]({{site.baseurl}}/img/bannerIntro2.jpg)
+
+蓝色区域代表浏览器的视窗位置。图片配合地在不同状态中切换即可达到轮播效果。
+
  
 

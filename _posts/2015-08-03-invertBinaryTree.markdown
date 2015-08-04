@@ -2,8 +2,8 @@
 layout: post
 title: Invert Binary Tree(二叉树反转) 
 description : Invert Binary Tree(二叉树反转)
-category: [算法]
-tags: [困难]
+category: [LeetCode]
+tags: [算法]
 ---
 
 
