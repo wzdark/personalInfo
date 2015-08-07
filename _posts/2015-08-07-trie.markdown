@@ -1,0 +1,218 @@
+---
+layout: post
+title: trie树
+description : trie树
+category: [LeetCode]
+tags: [算法]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##定义
+trie树，又称前缀树（prefix tree）和字典树，是一种哈希树的变种。典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串），
+所以经常被搜索引擎系统用于文本词频统计。它的优点是：利用字符串的公共前缀来减少查询时间，最大限度地减少无谓的字符串比较，查询效率比哈希树高。 (什么是哈希树？)
+
+
+trie树有三个性质：
+
+1. 根节点不包含字符，除根节点外每一个节点都只包含一个字符
+2. 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串
+3. 每个节点的所有子节点包含的字符都不相同
+
+在[LeetCode](https://leetcode.com/problems/implement-trie-prefix-tree/)上也有一道题要我们实现trie树。包括数据结构和三个接口：
+
+	/**
+	 * @constructor
+	 * Initialize your data structure here.
+	 */
+	var TrieNode = function() {
+		
+	};
+
+	var Trie = function() {
+		this.root = TrieNode();
+	};
+	
+	/**
+	 * @param {string} word
+	 * @return {void}
+	 * Inserts a word into the trie.
+	 */
+	Trie.prototype.insert = function(word) {
+		
+	};
+
+	/**
+	 * @param {string} word
+	 * @return {boolean}
+	 * Returns if the word is in the trie.
+	 */
+	Trie.prototype.search = function(word) {
+		
+	};
+
+	/**
+	 * @param {string} prefix
+	 * @return {boolean}
+	 * Returns if there is any word in the trie
+	 * that starts with the given prefix.
+	 */
+	Trie.prototype.startsWith = function(prefix) {
+		
+	};
+
+
+
+
+##分析
+根据trie树的性质，前缀相同的单词在trie树中 有共同的路径，比如`abc`和`abd` ：
+
+![单词共同路径示意图]({{site.baseurl}}/img/trie-1.jpg)
+
+不同的前缀的单词有不同的路径（分支），比如`abc` 和 `bcd`:
+
+![单词分支路径示意图]({{site.baseurl}}/img/trie-2.jpg)
+
+
+注意： 要判断给定单词是否在trie树中，则需要在trieNode节点类上增加一个属性，标志该节点是否为单词的结束节点。
+否则连续插入单词`abc` 和 `ab` ，我们不能得出单词`ab`是存在与trie树中，因为单词`abc`中的`c`在trie树中是叶子节点，所以`abc`肯定在trie树中，而对于`ab`我们不能确定：
+
+![判断单词尾节点示意图]({{site.baseurl}}/img/trie-3.jpg)
+
+##代码（javascript）
+
+###数据结构
+	
+	//节点类
+	var TrieNode = function(char) {
+			this.char = char;
+			this.children = [];
+			//是否为单词结束节点
+			this.isEndNode = false;
+	};
+	
+	
+	var Trie = function() {
+		//根节点为空
+		this.root = new TrieNode(null);
+	};
+
+###要实现的函数接口
+	
+#### 1.insert
+	
+	//插入一个单词到trie树
+	Trie.prototype.insert = function(word){
+		if (typeof word != "string") return;
+		
+		var curNode = this.root;
+		var arr = word.match(/./g);
+		
+		for (var i = 0; i<arr.length ; i++){
+			var char = arr[i];
+			var findNode = null
+			//查看当前node的子节点 是否与char 相等
+			curNode.children.forEach(function(item){
+				if (item.char == char){
+					findNode = item;
+				}
+			});
+			
+			//1.相等： curNode指向 找到的子节点
+			if (findNode){
+				curNode = findNode;
+				//word end 节点
+				if ( i == arr.length - 1){
+					findNode.isEndNode = true;
+				}
+			}
+			//2.不相等， 在curNode 下新增一个节点值为char ，并且 curNode指向新增节点
+			else{
+				var newNode = new TrieNode(char);
+				curNode.children.push(newNode);
+				curNode = newNode;
+				//word end 节点
+				if ( i == arr.length - 1){
+					newNode.isEndNode = true;
+				}
+			}
+			
+		}
+	};
+
+#### 2.startsWith
+	
+	//判断该前缀是否存在与trie树中
+	Trie.prototype.startsWith = function(prefix){
+		if (typeof prefix != "string" || prefix.length == 0) return false;
+		var curNode = this.root;
+		for (var i=0; i < prefix.length ;i++){
+			var char = prefix.charAt(i);
+			var findNode = null;
+			//查看当前节点下 是否能找到字符char
+			curNode.children.forEach(function(item){
+				if (item.char == char){
+					findNode = item;
+				}
+			});
+			
+			//1. 找到字符char 当前curNode 指向 findNode
+			if (findNode){
+				curNode = findNode;
+			}
+			//2. 没找到 则该单词不在trie树中
+			else{
+				return false;
+			}
+		}
+		return true;
+	};
+
+#### 3.search
+	
+	//判断该单词是否在trie树中
+	Trie.prototype.search = function(word){
+		if (typeof word != "string" || word.length == 0){
+			return false;
+		}
+		
+		var curNode = this.root;
+		for (var i=0; i < word.length ;i++){
+			var char = word.charAt(i);
+			var findNode = null;
+			//查看当前节点下 是否能找到字符char
+			curNode.children.forEach(function(item){
+				if (item.char == char){
+					findNode = item;
+				}
+			});
+			
+			//1. 找到字符char 当前curNode 指向 findNode
+			if (findNode){
+				curNode = findNode;
+				//word end 节点额外判断 && 结束条件
+				if ( i == word.length -1 ){
+					if (curNode.isEndNode){
+						return true;
+					}
+					else{
+						return false;
+					}
+				}
+			}
+			//2. 没找到 则该单词不在trie树中
+			else{
+				return false;
+			}
+			
+		}
+		
+	};
+
+
