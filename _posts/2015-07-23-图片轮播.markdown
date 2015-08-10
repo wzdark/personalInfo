@@ -167,7 +167,7 @@ javascript:
 	<div class="carousel">...</div>
 
 放入在body或者是自适应宽度的容器下，其banner的尺寸也是自适应的，能适应浏览器尺寸改变，而长宽比不变。   
-比如 <a href="{{ site.baseurl}}/bannerTest.html">这里</a>
+比如 <a href="{{ site.baseurl}}/pages/bannerImg1.html">这里</a>
 
 
 ##方案2
