@@ -21,7 +21,7 @@ tags: [linux]
 以下教程都是针对 centos6.x 版本。
 
 
-##装备工作
+##准备工作
 如果你是第一次使用centos系统，那么得了解 centos的默认软件包管理器是yum：
 
 > Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及CentOS中的Shell前端软件包管理器。
