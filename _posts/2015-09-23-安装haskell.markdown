@@ -47,7 +47,7 @@ Ok 到此为止，我们准备好了软件包管理环境，接下来要安装Ha
 ###安装EPEL 仓库
 
 EPEL是  Fedora Extra Packages for Enterprise Linux 的缩写。
-它提供了很多用友的软件包，在官方的Centos上是没有的。比如说: `haskell-platform` - haskell的开发环境
+它提供了很多有用的软件包，在官方的Centos上是没有的。比如说: `haskell-platform` - haskell的开发环境
 
 CentOS Extras 仓库提供了一个软件包来安装EPEL:
 
