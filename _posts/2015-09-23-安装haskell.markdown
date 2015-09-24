@@ -1,0 +1,64 @@
+---
+layout: post
+title: centos安装haskell
+description : centos安装haskell
+category: [环境搭建]
+tags: [linux]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##前言
+突然想学一下Haskell 这种纯函数式编程语言， 正好手头上有一个Centos系统。 所以萌生了在Centos上玩Haskell的想法。
+首先来看如何搭建Haskell的开发环境在Centos上。 
+
+以下教程都是针对 centos6.x 版本。
+
+
+##装备工作
+如果你是第一次使用centos系统，那么得了解 centos的默认软件包管理器是yum：
+
+> Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及CentOS中的Shell前端软件包管理器。
+> 基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。
+
+然后将默认的yum源跟换为国内的yum源，比如淘宝的这个：
+
+1 备份原文件
+
+	mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+
+2 下载新的CentOS-Base.repo 到 /etc/yum.repos.d/
+	
+	wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo
+
+3 运行yum makecache生成缓存
+	
+	yum clean all
+	yum makecache
+
+Ok 到此为止，我们准备好了软件包管理环境，接下来要安装Haskell依赖的软件包。
+
+###安装EPEL 仓库
+
+EPEL是  Fedora Extra Packages for Enterprise Linux 的缩写。
+它提供了很多用友的软件包，在官方的Centos上是没有的。比如说: `haskell-platform` - haskell的开发环境
+
+CentOS Extras 仓库提供了一个软件包来安装EPEL:
+
+	sudo yum install epel-release
+
+如果这个命令不起作用，直接下载rpm下来安装：
+
+	wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+	sudo rpm -Uvh epel-release-6*.rpm
+
+## 安装haskell-platform
+
+	sudo yum install -y haskell-platform
+
