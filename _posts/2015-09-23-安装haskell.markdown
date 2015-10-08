@@ -87,3 +87,8 @@ ghci程序是GHC（haskell编译器）的交互式解析器。它可以让用户
 以及强烈推荐  ：
 [Real World Haskell 中文版](https://rwh.readthedocs.org/en/latest/index.html)
 
+### ps:名词解释
+
++ `ghc` 是编译脚本生成可执行文件，生成快速本底代码的优化编译器。 
++ `ghci` 是一个交互解析器和调试器。
++ `runghc` 是一个以脚本形式(并不要首先编译)运行Haskell代码的程序，
