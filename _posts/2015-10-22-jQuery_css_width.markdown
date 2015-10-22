@@ -213,8 +213,8 @@ tags: [jQuery, 源码分析, cssHooks, 盒子模型]
 看到注释，聪明的人可能就明白了，该段代码定义了jquery对象的6个方法 ：innerHeight, innerWidth, height, width, outerHeight and outerWidth 。针对css盒子模型，我们可以很容易的猜到：
 
 innerHeight, innerWidth,   获取的是padding-box的宽和高。    
-height, width,             获取的是content-box的宽和高。
-outerHeight and outerWidth 获取的是border-box的宽和高。
+height, width,             获取的是content-box的宽和高。    
+outerHeight and outerWidth 获取的是border-box的宽和高。    
 
 继续往下，在`access`函数的参数` function( elem, type, value )`里找到关键代码：
 
