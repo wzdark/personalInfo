@@ -152,15 +152,15 @@ tags: [jQuery 源码分析 cssHooks 盒子模型]
 		)
 	) + "px";
 	
-其注释已经说得很明显： 本元素的盒子模型属性，去加上或者减去一个相对值。 
-在这里参数`extra`其作用了，它与上面求得的`isBorderBox`一起决定要取的属性是基于‘border‘还是’content‘. 
+其注释已经说得很明显： 根据本元素的盒子模型属性，去加上或者减去一个相对值。 
+在这里参数`extra`起作用了，它与上面求得的`isBorderBox`一起决定要取的属性是基于‘border‘还是’content‘. 
 
 最后再回顾一下 使用.css('width')取宽度时，我们的调用过程：
 
 	css('width')  ->   jquery.fn.css   - >  jQuery.css( elem, name )     ->    hooks.get( elem, true, extra )  -> getWidthOrHeight( elem, name, extra )
 
 注意：在`jQuery.css( elem, name )` 到 ` hooks.get( elem, true, extra ) `之间没传`extra`参数。 
-所以最后取得的值是都少，取决于当前元素处于哪个盒子模型。所以得到结论：    
+所以最后取得的值是多少，取决于当前元素处于哪个盒子模型。所以得到结论：    
 
 **`$dom.css('width')` 操作的是元素的style上的 width。 根据box-size属性的不同， 这个width可能是 content width 也可能是 border width。**
 
@@ -239,6 +239,13 @@ outerHeight and outerWidth 获取的是border-box的宽和高。
 其中extra在初始化的时候为设置为'content' , 所以得出结论：
 
 **`$dom.width()`  操作的是元素的content width。**
+
+##结论
+再重复一遍：
+
+
+`$dom.width()`  操作的是元素的content width。    
+`$dom.css('width')` 操作的是元素的style上的 width。 根据box-size属性的不同， 这个width可能是 content width 也可能是 border width。
 
 
 
