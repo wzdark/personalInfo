@@ -1,0 +1,164 @@
+.absolute-center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  display: block;
+}
+
+.opa-combobox-icon{
+	width: 16px;
+	height: 16px;
+    background-repeat: no-repeat;
+    font-size: 0;
+    line-height: 0;
+}
+
+.loading{
+    background-image: url(loading.gif);
+}
+
+.select{
+	background-image: url(select.png);
+}
+.opa-combobox{
+    width: 400px;
+	display: inline-block;
+	color: #2e2e2e;
+	position: relative;
+}
+
+.opa-combobox-wrap{
+    background-image: none,linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 100%);
+    background-position: 50% 50%;
+    background-color: #ececec;
+    border-color: #c5c5c5;
+    border-radius: 4px;
+    border-width: 1px;
+	border-style: solid;
+	padding: 0 1.9em 0 0;
+	display: block;
+	box-sizing: content-box;
+    position: relative;
+}
+
+.opa-combobox-wrap:hover{
+	background-color: #bdb4af;
+}
+
+.opa-combobox-input{
+	width: 100%;
+    border-radius: 3px 0 0 3px;
+    border-color: #c5c5c5;
+	height: 1.65em;
+    line-height: 1.65em;
+    padding: .177em 0;
+    text-indent: .33em;
+    border: 0;
+    margin: 0;
+    display: inline;
+    font-family: inherit;
+    border-width: 0;
+    outline: 0;    
+    vertical-align: top;
+    font-size: 100%;
+    background-color: #fff;
+    color: #5f2200;
+}
+
+.opa-combobox-icon-wrap{
+	cursor: pointer;
+    border-color: #c5c5c5;
+    border-radius: 0 4px 4px 0;
+    min-height: 1.65em;
+    line-height: 2em;
+    vertical-align: middle;
+    -moz-box-sizing: border-box;
+    text-align: center;
+    text-align: -webkit-center;
+    width: 1.9em;
+    height: 100%;
+    border-style: solid;
+	border-width: 0 0 0 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    vertical-align: top;
+    text-decoration: none;
+    box-sizing: content-box;
+}
+
+ul.opa-combobox-list{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    font-size: 100%;
+    list-style: none;
+    overflow: auto; 
+    position: relative; 
+    height: 100%;
+    padding: 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);
+    border-color: #c5c5c5;
+    background-color: rgb(233, 233, 233);
+    
+    box-sizing: border-box;
+    
+    transition: all  0.2s ;
+	-ms-transition: all  0.2s ;/* IE 9 */
+	-moz-transition: all  0.2s ;	/* Firefox */
+	-webkit-transition: all  0.2s ; /* Safari 和 Chrome */
+	-o-transition: all  0.2s ;	/* Opera */
+    
+}
+
+.opaShow{
+	transform: translateY(0);
+	-ms-transform:translateY(0); 	/* IE 9 */
+	-moz-transform:translateY(0); 	/* Firefox */
+	-webkit-transform:translateY(0); /* Safari 和 Chrome */
+	-o-transform:translateY(0);	/* Opera */
+}
+
+.opaHide{
+	transform: translateY(-200px);
+	-ms-transform:translateY(-200px); 	/* IE 9 */
+	-moz-transform:translateY(-200px); 	/* Firefox */
+	-webkit-transform:translateY(-200px); /* Safari 和 Chrome */
+	-o-transform:translateY(-200px);	/* Opera */
+}
+
+.opa-combobox-list-container{
+	position: absolute;
+  width: 100%;
+	left: 0;
+  box-sizing: border-box;
+  height: 200px;
+  overflow: hidden; 
+  z-index: 1000;
+}
+
+.opa-combobox-item{
+	padding: 1px 5px 1px 5px;
+    line-height: 1.8em;
+    min-height: 1.8em;
+    cursor: default;
+    font-size: 100%;
+    border-radius: 3px;
+}
+
+.opaSelected{
+    color: #fff;
+	background-color: #f35800;
+	border-color: #f85a00;
+}
+.opa-combobox-item:hover{
+	color:#2e2e2e;
+	border-color:#b6b6b6;
+	background-color:#bcb4b0
+}
