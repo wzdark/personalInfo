@@ -15,7 +15,7 @@ tags: [jQuery, 源码分析, cssHooks, 盒子模型]
 </div>
 
 ##前言
-在项目中用到了百度的富文本编辑器（1.2.2版本） [umeditor](http://ueditor.baidu.com/), 碰到了一个隐藏很深的bug，见：  
+在项目中用到了百度的富文本编辑器（1.2.2版本） [umeditor](http://ueditor.baidu.com/website/umeditor.html), 碰到了一个隐藏很深的bug，见：  [umeditor的一个bug]({{site.baseurl}}/2015/10/23/umeditor_bug.html)    
 造成bug的主要原因是 在源码`umeditor.js`中有这样一段代码：
 
 	if (rect[dir][2] != 0) {
@@ -135,7 +135,7 @@ tags: [jQuery, 源码分析, cssHooks, 盒子模型]
 	isBorderBox = support.boxSizing && jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
 其中，`var valueIsBorderBox = true,`表示下面要获取的`val`是盒子模型中 border-box的宽度。
-`elem`是一个jquery对象，`elem.offsetWidth` 分别存储了 `elem.offsetHeight` 其border-box的宽和高。
+`elem`是一个jquery对象，`elem.offsetWidth` `elem.offsetHeight`分别存储了 `elem` 的border-box的宽和高。
 `isBorderBox`是表示当前元素的盒模型是不是 "border-box"
 
 2.计算最终的宽度（或者高度）
