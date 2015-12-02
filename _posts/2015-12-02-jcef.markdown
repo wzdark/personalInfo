@@ -15,7 +15,9 @@ tags: [java, jCEF]
 </div>
 
 ##前言
-在项目中需要在桌面应用程序中内嵌浏览器， 尝试了几种解决方案，有：javafx, DJNativeSwing,CEF等。觉得CEF效果最好。本文目的是介绍如何编译和使用jCEF。
+在项目中需要在桌面应用程序中内嵌浏览器， 尝试了几种解决方案，有：javafx, DJNativeSwing,CEF等。觉得CEF效果最好。本文目的是介绍如何编译和使用jCEF。	
+
+主要参考和翻译了这篇文章[java-cef](https://bitbucket.org/chromiumembedded/java-cef/wiki/BranchesAndBuilding)
 
 ##背景说明
 ###什么是CEF？
