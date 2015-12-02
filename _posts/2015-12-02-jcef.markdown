@@ -1,0 +1,146 @@
+---
+layout: post
+title: 如何编译JCEF以及内嵌到桌面应用程序中
+description : 如何编译JCEF以及内嵌到桌面应用程序中
+category: [java]
+tags: [java, jCEF]
+---
+
+
+-----------------------
+
+
+<div class="toc">
+			
+</div>
+
+##前言
+在项目中需要在桌面应用程序中内嵌浏览器， 尝试了几种解决方案，有：javafx, DJNativeSwing,CEF等。觉得CEF效果最好。本文目的是介绍如何编译和使用jCEF。
+
+##背景说明
+###什么是CEF？
+CEF是[Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/CEF)的缩写，是个基于Google Chromium项目的开源Web browser控件，支持Windows, Linux, Max平台。除了提供C/C++接口外，也有其他语言的移植版。比如JCEF。
+因为基于Chromium，所以CEF支持Webkit & Chrome中实现的HTML5的特性，并且在性能上面，也比较接近Chrome。
+
+###谁在用CEF？
+
+1. **各种浏览器**    
+早期的双核浏览器(IE + Webkit)，有些使用了CEF来作为Webkit内核浏览器控件。
+不过对于浏览器来说，直接在Chrome上面扩展，其实才是王道，大家现在都这么做了（各种极速浏览器）。
+
+2. **Evernote Client (on Windows)**    
+Evernote允许用户将网页粘贴到笔记中，还提供了插件用来将网页保存为笔记。
+那肯定是需要在Client上面可以正确的渲染页面咯，这个任务就交给了CEF。
+
+3. **GitHub Client (on Windows)**	
+GitHub也打包了libCEF.dll，从表现上面看，用来展示项目的ReadMe页面的，肯定是CEF，其他地方的UI，可能部分也是用页面来实现的。
+
+4. **QQ**	
+QQ很早之前就通过内嵌IE来实现一些功能和界面。从2013年开始，QQ引入了CEF，对一些之前用IE的地方进行了替换，这样就可以使用一些基于Webkit的新特性，同时也获得了速度、稳定性、兼容性方面的优势。
+
+###什么是JCEF？
+简单来说，[JCEF](https://bitbucket.org/chromiumembedded/java-cef)是对CEF进行了一层Java封装。使用JNI调用CEF的功能。目标是让java开发者能够使用CEF框架来开发web browser控件。
+
+
+##如编译和使用JCEF?
+目前JCEF保持了一个开发分支对CEF进行跟进，在不断的develop中。我们可以下载JCEF源码按照下面的步骤手动编译。
+
+###1. 准备环境
+需要编译JCEF需要你的电脑上有如下的开发环境：
+
++ [CMake](http://cmake.org/download/) version 2.8.12.2 or newer.
++ [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
++ [Java](https://java.com/en/download/) version 1.7 or newer.
++ [Python](https://www.python.org/downloads/) version 2.6 or newer.
+
+对于linux系统，下面几个发行版是支持的：    	
+
++ Debian Wheezy, Ubuntu Precise, and related.
+ 
+对于windows系统：	
+
++ 因为JCEF的开发者用Visual Studio 2013 作为开发工具，所以你得准备一个VS2013 来编译JCEF，否则用其他的编译器可能会出问题。
+ 
+对于MAC系统：	
+
++ 需要[Apache Ant](https://ant.apache.org/bindownload.cgi)
+
+###2. 下载JCEF源码
+
+1. 使用git下载JCEF源码：
+
+		#The JCEF source code will exist at `/path/to/java-cef/src`
+		cd /path/to/java-cef
+		git clone https://bitbucket.org/chromiumembedded/java-cef.git src
+
+		
+2. <p>下载CEF源码： </p> 	
+访问[cef](http://cefbuilds.com), 根据目标平台（windows or linux or mac）去下载cef最近稳定的分支下载完成后，按照README.jcef描述的文件结构，将下载的内容解压,并重命名文件夹。  
+比如，对于win64的版本，文件夹目录会是如下的结构`/path/to/java-cef/src/third_party/cef/win64/cefclient.gyp`		
+其中`third_party`文件夹包含的是JCEF引用的第三方库文件。
+
+3. 对于linux系统，需要创建symlinks。执行如下指令：
+
+		$ sudo ln -s /path/to/java-cef/src/third_party/cef/linux64/Resources/icudtl.dat /usr/lib/jvm/java-7-oracle/jre/bin/icudtl.dat
+		$ sudo ln -s /path/to/java-cef/src/third_party/cef/linux64/Debug/natives_blob.bin /usr/lib/jvm/java-7-oracle/jre/bin/natives_blob.bin
+		$ sudo ln -s /path/to/java-cef/src/third_party/cef/linux64/Debug/snapshot_blob.bin /usr/lib/jvm/java-7-oracle/jre/bin/snapshot_blob.bin
+		
+###3. 手动编译
+1. 运行cmake生成目标平台的项目文件，然后编译这些项目文件去生成本地的代码，比如生成jcef和jcef_helper两个项目的本地代码。
+
+		# Enter the JCEF source code directory.
+		cd /path/to/java-cef/src
+
+		# Create and enter the `jcef_build` directory.
+		# The `jcef_build` directory name is required by other JCEF tooling
+		# and should not be changed.
+		mkdir jcef_build && cd jcef_build
+
+		# Linux: Generate 64-bit Unix Makefiles.
+		# Set the JAVA_HOME environment variable if necessary.
+		export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+		cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
+		# Build using Make.
+		make -j4
+
+		# Mac OS X: Generate 64-bit Xcode project files.
+		cmake -G "Xcode" -DPROJECT_ARCH="x86_64" ..
+		# Open jcef.xcodeproj in Xcode and select Product > Build.
+
+		# Windows: Generate 64-bit VS2013 project files.
+		cmake -G "Visual Studio 12 Win64" ..
+		# Open jcef.sln in Visual Studio and select Build > Build Solution.
+
+2. 在windows或者linux上，使用compile.[bat|sh]工具来build JCEF的JAVA classes，在MAC上不需要如下步骤，因为java classes已经被cmake生成。
+
+		cd /path/to/java-cef/src/tools
+		compile.bat win64
+
+3. 测试结果是否正确。
+   使用 run.[bat|sh] 工具来测试JCEF是否工作。
+	
+		cd /path/to/java-cef/src/tools
+		run.bat win64 Release detailed
+	
+	正确结果会得到一个java窗口程序，如图：		
+	![jcef运行示意图]({{site.baseurl}}/img/jcef-result.png)
+	
+到此为止，我们已经把jcef编译成为目标平台的本地代码了。
+
+### 在eclipse里使用jcef
+其实在jcef源码里，就有java代码的示例。
+
+1. 打开eclipse 新建一个工程，base目录选择`/path/to/java-cef/src/java`
+2. 点击工程，邮件选择build path > configure build path
+3. 选择Librares页签，添加两个第三方jar。在上文提到的`third_party`中，分别如下：		
+	`/path/to/java-cef/src/third_party/jogamp/jar/gluegen-rt.jar` 和 `/path/to/java-cef/src/third_party/jogamp/jar/jogl-all.jar`
+4. 在source页签下， 为Native library location 添加一个地址，如下：	
+	`/path/to/java-cef/src/jcef_build/native/Release`
+5. 运行tests.simple或者是tests.detail里的mainFrame。
+
+结果如下：	
+
+![jcef运行示意图]({{site.baseurl}}/img/jcef-result.png)
+	
+
+

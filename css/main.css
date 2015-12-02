@@ -375,6 +375,12 @@ strong {
     font-weight: bold;
 }
 
+.post-content  ol > li{
+	margin-bottom: 18px;
+}
+.post-content  ol > li p{
+	margin-bottom: 18px;
+}
 .post-content li {
     display: list-item;
     text-align: -webkit-match-parent;
