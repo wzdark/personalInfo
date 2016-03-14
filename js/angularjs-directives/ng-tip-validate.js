@@ -7,7 +7,7 @@
 (function(){
 	
 	//辅助函数
-	function prepare(elem , attrs, directiveName){
+	function prepare(elem , attrs, directiveName , ngTipValidateConfig){
 		var id =  elem.attr("id");
       	if (!id){
       	 	console.warn(directiveName + " must has 'id'. if not it will auto generate one.");
@@ -25,9 +25,14 @@
       	if (submitBtn.length ==0){
       		throw new Error('do not find submitBtn which id is "' + attrs['submitBtnId'] +'"!' );
       	}
+      	
+      	//弹出提示反向
+      	var tipDirection = attrs.uccTipDirection ? attrs.uccTipDirection : ngTipValidateConfig.tipDirection;
+      	
       	return {
       		submitBtn :submitBtn,
-      		id : id
+      		id : id,
+      		tipDirection: tipDirection
       	};
 	}
 	
@@ -43,6 +48,8 @@
 		this.uccBankCardMsg = "银行卡格式错误";
 		this.uccMinLengthMsg = "长度不能小于$";
 		this.uccMaxLengthMsg = "长度不能大于$";
+		//错误提示的反向
+		this.tipDirection = 1; // 1, 2 , 3, 4 分别代表上、右、 下 、 左
 	})
 	
 	
@@ -129,7 +136,7 @@
 		      	 	errMsg = ngTipValidateConfig.uccRequireMsg;
 		      	 }
 		      	 
-		      	 var pObject = prepare(elem,attrs,"ucc-require");
+		      	 var pObject = prepare(elem,attrs,"ucc-require",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -143,7 +150,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(errMsg, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection 
 						});
 		      	 	}
 		      	 	else{
@@ -180,7 +187,7 @@
 		      link: function(scope, elem, attrs, ngModel) {
 		      	 var errMsg = attrs['uccEmail'] ? attrs['uccEmail'] : ngTipValidateConfig.uccEmailMsg;
 		      	 
-		      	 var pObject = prepare(elem,attrs,"ucc-email");
+		      	 var pObject = prepare(elem,attrs,"ucc-email",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -195,7 +202,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(errMsg, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 		      	 	}
 		      	 	else{
@@ -230,7 +237,7 @@
 		     
 		      link: function(scope, elem, attrs, ngModel) {
 		      	 var errMsg = attrs['uccPhone'] ? attrs['uccPhone'] : ngTipValidateConfig.uccPhoneMsg;
-		      	 var pObject = prepare(elem,attrs,"ucc-phone");
+		      	 var pObject = prepare(elem,attrs,"ucc-phone",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -243,7 +250,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(errMsg, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccPhone', false);
 		      	 	}
@@ -280,7 +287,7 @@
 		     
 		      link: function(scope, elem, attrs, ngModel) {
 		      	 var errMsg = attrs['uccTel'] ? attrs['uccTel'] : ngTipValidateConfig.uccTelMsg;
-		      	 var pObject = prepare(elem,attrs,"ucc-tel");
+		      	 var pObject = prepare(elem,attrs,"ucc-tel",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -293,7 +300,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(errMsg, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccTel', false);
 		      	 	}
@@ -330,7 +337,7 @@
 		     
 		      link: function(scope, elem, attrs, ngModel) {
 		      	 var errMsg = attrs['uccBankCard'] ? attrs['uccBankCard'] : ngTipValidateConfig.uccBankCardMsg;
-		      	 var pObject = prepare(elem,attrs,"ucc-bank-card");
+		      	 var pObject = prepare(elem,attrs,"ucc-bank-card",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -343,7 +350,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(errMsg, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccTel', false);
 		      	 	}
@@ -384,7 +391,7 @@
 		      	 if (!validator.isPositiveNumber(len)){
 		      	 	throw new Error('ucc-min-length must has positive number!' );
 		      	 }
-		      	 var pObject = prepare(elem,attrs,"ucc-min-length");
+		      	 var pObject = prepare(elem,attrs,"ucc-min-length",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -397,7 +404,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccMinLength', false);
 		      	 	}
@@ -438,7 +445,7 @@
 		      	 if (!validator.isPositiveNumber(len)){
 		      	 	throw new Error('ucc-max-length must has positive number!' );
 		      	 }
-		      	 var pObject = prepare(elem,attrs,"ucc-max-length");
+		      	 var pObject = prepare(elem,attrs,"ucc-max-length",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -451,7 +458,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccMaxLength', false);
 		      	 	}
@@ -496,7 +503,7 @@
 		      	 if (!patternErrMsg){
 		      	 	throw new Error('ucc-pattern must has value!' );
 		      	 }
-		      	 var pObject = prepare(elem,attrs,"ucc-pattern");
+		      	 var pObject = prepare(elem,attrs,"ucc-pattern",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -509,7 +516,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccPattern', false);
 		      	 	}
@@ -551,7 +558,7 @@
 		      	 	throw new Error('ucc-validate-func must has value!' );
 		      	 }
 		      	 
-		      	 var pObject = prepare(elem,attrs,"ucc-validate-func");
+		      	 var pObject = prepare(elem,attrs,"ucc-validate-func",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -568,7 +575,7 @@
 	                		layer.close(tipId); tipId = null;
 	                	}
 		      	 		tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-						    tipsMore: true, time:5000
+						    tipsMore: true, time:5000 , tips: pObject.tipDirection
 						});
 						ngModel.$setValidity('uccPattern', false);
 		      	 	}
@@ -611,7 +618,7 @@
 		      	 	throw new Error('ucc-remote must has value!' );
 		      	 }
 		      	
-		      	 var pObject = prepare(elem,attrs,"ucc-remote");
+		      	 var pObject = prepare(elem,attrs,"ucc-remote",ngTipValidateConfig);
 		      	 var id =  pObject.id;
 		      	 var submitBtn = pObject.submitBtn;
 		      	 
@@ -637,7 +644,7 @@
 		                	}
 		      	 			
 		      	 			tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-							    tipsMore: true, time:5000
+							    tipsMore: true, time:5000 , tips: pObject.tipDirection
 							});
 		                }
 		            }).error(function (data, status, headers, config) {
@@ -648,7 +655,7 @@
 		                		layer.close(tipId); tipId = null;
 		                	}
 		      	 			tipId = layer.tips(ngModel.uccError, '#' + id ,  {
-							    tipsMore: true, time:5000
+							    tipsMore: true, time:5000 , tips: pObject.tipDirection
 							});
 		            });
 		      	 	

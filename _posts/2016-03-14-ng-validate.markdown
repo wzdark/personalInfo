@@ -31,10 +31,10 @@ tags: [javascript, angularjs, validate]
 			<div class="col-md-6">
 				<div class="alert alert-info ">
 					<div class="alert alert-success">
-						name (非空): <input type="text" ng-model="name" id="name" ucc-require="名称必须填" submit-btn-id="submit"/>	
+						name (非空): <input type="text" ng-model="name" id="name" ucc-require="名称必须填" ucc-tip-direction="3" submit-btn-id="submit"/>	
 					</div>
 					代码：
-					<pre>&lt;input type="text" ng-model="name" id="name" ucc-require="名称必须填" submit-btn-id="submit"&gt; </pre>
+					<pre>&lt;input type="text" ng-model="name" id="name" ucc-require="名称必须填" ucc-tip-direction="3" submit-btn-id="submit"&gt; </pre>
 					
 				</div>
 			</div>
@@ -42,10 +42,10 @@ tags: [javascript, angularjs, validate]
 			<div class="col-md-6">
 				<div class="alert alert-info ">
 					<div class="alert alert-success">
-						email : <input type="text" ng-model="email" id="email" ucc-email ucc-require submit-btn-id="submit"/>
+						email : <input type="text" ng-model="email" id="email" ucc-email ucc-require ucc-tip-direction="2" submit-btn-id="submit"/>
 					</div>
 					代码：
-					<pre>&lt;input type="text" ng-model="email" id="email" ucc-email ucc-require submit-btn-id="submit"&gt; </pre>
+					<pre>&lt;input type="text" ng-model="email" id="email" ucc-email ucc-require ucc-tip-direction="2" submit-btn-id="submit"&gt; </pre>
 					
 				</div>
 			</div>
@@ -165,15 +165,27 @@ else{
 <div class="alert alert-info">
 			demo controller:
 			<pre>
-angular.module('ngTest',['ngTipValidate']);
-angular.module('ngTest').controller('ctrl',['$scope',function($scope){
-	$scope.name = "wz";
+angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipValidateConfig',function($scope, ngTipValidateConfig){
+	//修改ng-validate 的默认配置项
+	ngTipValidateConfig.uccRequireMsg = "必须非空";
+	
+	
+	$scope.name = "";
 	$scope.email = "";
 	$scope.phone = "";
 	$scope.remoteData = {
 		id : 1234,
 		name : "wzggg"
 	};
+	$scope.validateFun = function(input){
+		if ("wz" != input){
+			return "必须是wz";
+		}
+		else{
+			//验证成功返回0 或者 null 或者 false
+			return 0;
+		}
+	}
 	
 	$scope.submit = function(){
 		//提交前先验证表单是否正确
@@ -235,6 +247,7 @@ angular.module('ngTest').controller('ctrl',['$scope',function($scope){
 			ngTipValidateConfig.uccBankCardMsg = "银行卡格式错误";
 			ngTipValidateConfig.uccMinLengthMsg = "长度不能小于$";
 			ngTipValidateConfig.uccMaxLengthMsg = "长度不能大于$";
+			
 		}]);
 		
 
@@ -255,8 +268,21 @@ angular.module('ngTest').controller('ctrl',['$scope',function($scope){
 			}
 		};
 		
+5.  可以为每一个表单指定错误提示的方向，`ucc-tip-direction="1"` , 或者不指定，即使用默认值。 默认的提示方式可以如下配置：
+
+		angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope','ngTipValidateConfig',function($scope,ngTipValidateConfig){
+			
+			//错误提示的方向
+			ngTipValidateConfig.tipDirection = 1; // 1, 2 , 3, 4 分别代表上、右、 下 、 左
+		}]);
+		
 ### 远程验证附加说明
-1.  远程验证的返回数据的格式必须满足如下格式：其中success代码验证是否成功， 而msg代码验证失败需要显示的错误提示。
+1.  远程验证的url 必须跟网页路径是同源的，目前不支持跨域。填写方式如下：
+
+		<input ucc-remote="/testCtrl/remoteTest" />
+		
+
+2.  远程验证的返回数据的格式必须满足如下格式：其中success代码验证是否成功， 而msg代码验证失败需要显示的错误提示。
 
 		“{success:true, msg:xxx, data:xxx}” 		
 
@@ -264,9 +290,9 @@ angular.module('ngTest').controller('ctrl',['$scope',function($scope){
 		
 		“{success:false, msg:'必须满足xx条件', data:xxx}”
 		
-2.  远程验证发起请求时，当前表单的值会以“value”的名称作为post数据 发送到后台。 后台（java）可以通过 `request.getParameter("value")` 获取表单数据。
+3.  远程验证发起请求时，当前表单的值会以“value”的名称作为post数据 发送到后台。 后台（java）可以通过 `request.getParameter("value")` 获取表单数据。
 
-3.  远程验证如果需要 附加验证条件， 可以通过如下代码指定 post data ， 而当前表单的值会附加到 post data 的 ’value‘ 属性上去。
+4.  远程验证如果需要 附加验证条件， 可以通过如下代码指定 post data ， 而当前表单的值会附加到 post data 的 ’value‘ 属性上去。
 
 		<input ... ucc-remote-data="remoteData" />
 	
@@ -284,6 +310,8 @@ angular.module('ngTest').controller('ctrl',['$scope',function($scope){
 			name : "wzggg",
 			value : 表单当前值
 		}
+		
+
 
 <script type="text/javascript">
 	angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipValidateConfig',function($scope, ngTipValidateConfig){
