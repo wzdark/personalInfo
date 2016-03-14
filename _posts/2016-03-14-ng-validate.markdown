@@ -209,7 +209,7 @@ angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipVa
 		</li>
 		<li>
 			jquery.js v1.11 + <br/>
-			<code>http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js</code>
+			<code>http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js</code>
 		</li>
 		<li>
 			layer.js v2.1 + （修改过源码，请从本站下载） <br/>
