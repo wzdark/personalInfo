@@ -171,8 +171,9 @@ angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipVa
 	
 	
 	$scope.name = "";
-	$scope.email = "";
-	$scope.phone = "";
+	$scope.email = "wa";
+	$scope.phone = "444";
+	$scope.bankCard = "abc"
 	$scope.remoteData = {
 		id : 1234,
 		name : "wzggg"
@@ -320,8 +321,9 @@ angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipVa
 		
 		
 		$scope.name = "";
-		$scope.email = "";
-		$scope.phone = "";
+		$scope.email = "a";
+		$scope.phone = "444";
+		$scope.bankCard = "abc"
 		$scope.remoteData = {
 			id : 1234,
 			name : "wzggg"
