@@ -1,0 +1,125 @@
+---
+layout: post
+title: 基于angularjs的文本控件ng-text
+description : 基于angularjs的文本控件ng-text, 支持span 与  input 之间切换
+category: [前端]
+tags: [javascript, angularjs, ng-text]
+---
+
+
+-----------------------
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css">
+<script src="http://cdn.bootcss.com/angular.js/1.3.0/angular.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{"/js/layer/layer.js" | prepend: site.baseurl }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{"/js/angularjs-directives/ng-text.js" | prepend: site.baseurl }}" type="text/javascript" charset="utf-8"></script>
+
+</style>
+
+<div class="toc">
+			
+</div>
+
+##前言
+由于项目需要做了一个基于angularjs的文本控件，支持在可编辑状态和只读状态间的切换。
+
+
+##效果展示
+<form name="myForm" ng-app="ngTest" ng-controller="ctrl">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="alert alert-info ">
+				<div class="alert alert-success">
+					数字: <ng-text model-type="number" e-Width="80" blur="blur(value);"  ng-model="time"></ng-text>	
+				</div>
+				代码：
+				<pre>&lt;ng-text model-type="number"  e-Width="80" blur="blur(value);"  ng-model="time.start"&gt;&lt;/ng-text&gt; </pre>
+				
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<div class="alert alert-info ">
+				<div class="alert alert-success">
+					非空 : <ng-text require="必须要填啊"  e-Width="80" blur="blur(value);"  ng-model="time2"></ng-text>
+					{{time2}}
+				</div>
+				代码：
+				<pre>&lt;ng-text require="必须要填啊"  e-Width="80" blur="blur(value);"  ng-model="time2"&gt;&lt;/ng-text&gt; </pre>
+				
+			</div>
+		</div>
+	</div>
+</form>
+		
+##控制器代码
+<div class="alert alert-info">
+			demo controller:
+			<pre>
+angular.module('ngTest',['ngText']);	
+angular.module('ngTest').controller('ctrl',['$scope',function($scope){
+	$scope.time = "aa";
+	$scope.time2 = "";
+	$scope.blur = function(value){
+		console.info("blur : " +value);
+	}
+	
+}]);</pre>
+</div>
+
+##需要
+<div class="alert alert-info">
+	
+	<ul>
+		
+		<li>
+			jquery.js v1.11 + <br/>
+			<code>http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js</code>
+		</li>
+		<li>
+			angular.js v1.3 +  <br/>
+			<code>http://cdn.bootcss.com/angular.js/1.3.0/angular.min.js</code>
+		</li>
+		
+		<li>
+			layer.js v2.1 + （修改过源码，请从本站下载） <br/>
+			<a href="{{"/js/layer/layer.js" | prepend: site.baseurl }}">点击这里</a>
+		</li>
+		<li>
+			ng-text.js v1.0 + <br/>
+			js :<a href="{{"/js/angularjs-directives/ng-text.js" | prepend: site.baseurl }}">点击这里</a> ; css :<a href="{{"/js/angularjs-directives/ng-text.css" | prepend: site.baseurl }}">点击这里</a>
+		</li>
+	</ul>
+</div>
+
+
+##一些说明
+1. 使用<code>'require="必须要填哦"'</code>或者<code>'require'</code> 使表单成为必填项;并且可以指定'submit-btn-id'的属性为表单提交按钮的id。
+
+2. 使用<code>tip-direction="1"</code> 设置错误提示弹出方向，1、2、3、4 分别代码上、右、下、左.
+
+3. 使用<code>model-type="number"</code> 控制表单为只能输入数字
+
+4. 使用<code>e-Width="80"</code> 设置input的宽度
+
+5. 使用<code>blur="blur(value);"</code> 指定失去焦点事件函数
+
+		
+<script type="text/javascript">
+	angular.module('ngTest',['ngText']);
+		
+	angular.module('ngTest').controller('ctrl',['$scope',function($scope){
+		$scope.time = "aa";
+		$scope.time2 = "";
+		$scope.blur = function(value){
+			console.info("blur : " +value);
+		}
+		
+	}]);
+	
+</script>
+
+
+	
+
+
