@@ -67,6 +67,7 @@
 					//非法验证, 如果验证失败，值回滚为上一次的值
 					if (!ModelValidateService.validate(newValue, $attrs.modelType)){
 						$scope.inputValue = oldValue;
+						showErr("只能输入数字");
 					}
 				});
 			}
