@@ -14,16 +14,20 @@
       		id = Math.random().toString(36).substr(10);
 	      	elem.attr("id",id);
       	}
-      	var self = $("#"+ id);
-      	if (self.length == 0){
-      		throw new Error(directiveName + " which id is '" + id + "' can not be found!");
+      	var submitBtn;
+      	if (attrs.submitBtnId){
+      	 	submitBtn = $("#" + attrs.submitBtnId);
       	}
-      	if (!attrs.submitBtnId){
-      	 	throw new Error(directiveName + ' must has "submit-btn-id" attribute!!' );
-      	}
-      	var submitBtn = $("#" + attrs['submitBtnId']);
-      	if (submitBtn.length ==0){
-      		throw new Error('do not find submitBtn which id is "' + attrs['submitBtnId'] +'"!' );
+      	
+      	if (!submitBtn || submitBtn.length ==0){
+      	 		//找submitBtnClass
+      	 		if (attrs.submitBtnClass){
+      	 			submitBtn = $("." + attrs.submitBtnClass);
+      	 		}
+      	 	}
+      	
+      	if (!submitBtn || submitBtn.length ==0){
+      		console.warn(directiveName + " which id is '" + id + "' does not have submitBtn, forget to write attrs of 'sumbmit-btn-id' or 'sumbmit-btn-class' ?");
       	}
       	
       	//弹出提示反向
@@ -48,7 +52,7 @@
 		this.uccBankCardMsg = "银行卡格式错误";
 		this.uccMinLengthMsg = "长度不能小于$";
 		this.uccMaxLengthMsg = "长度不能大于$";
-		//错误提示的反向
+		//错误提示的方向
 		this.tipDirection = 1; // 1, 2 , 3, 4 分别代表上、右、 下 、 左
 	})
 	

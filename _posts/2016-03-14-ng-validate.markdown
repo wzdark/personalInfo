@@ -253,9 +253,11 @@ angular.module('ngTest',['ngTipValidate']).controller('ctrl',['$scope', 'ngTipVa
 		
 
 		
-3.  每个验证表单都要填写`submit-btn-id`, 属性用于指定表单提交按钮的id， 在表单提交时执行验证函数。
+3.  每个验证表单都要填写`submit-btn-id` 或者 'submit-btn-class'属性, 用于指定表单提交按钮的id或者class， 在表单提交按钮点击时时执行validate验证函数。
 
-		<input ... submit-btn-id="submit">
+		<input ... submit-btn-id="submit" submit-btn-class="submitClass">    
+		
+		<input ... class="submitClass" id="submit" value="提交">
 		
 4.  在表单提交函数里，需要验证表单是否有错误，如果无错，方可提交：
 
