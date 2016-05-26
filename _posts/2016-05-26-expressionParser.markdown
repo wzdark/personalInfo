@@ -54,7 +54,7 @@ tags: [java, expression parser]
 1. 分词（tokenize）		
 	input： `"(1+2)==3"` , outinput : `[(,1,+,2,),==,3]`
 	
-2. 生成逆波兰表达式		
+2. 生成逆波兰表达式	([reverse polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation))		
 	input: `[(,1,+,2,),==,3]` , output: `[1,2,+,3,==]`
 
 3. 计算逆波兰表达式		
